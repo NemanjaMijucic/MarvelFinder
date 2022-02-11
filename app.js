@@ -17,11 +17,15 @@ const loadingText = () => {
        <p>bookmarked</p>
        `;
       removeBookmark.setAttribute("value", hero[0].name);
+      removeBookmark.disabled = false;
+      removeBookmark.innerText = "remove bookmark";
       grid.appendChild(card);
     } else {
       grid.innerHTML = "";
+      removeBookmark.disabled = true;
+      removeBookmark.innerText = "no bookmark";
     }
-  }, 7000);
+  }, 5000);
 };
 document.addEventListener("DOMContentLoaded", loadingText);
 
@@ -138,6 +142,7 @@ async function loadCharacters() {
           e.target.value,
           e.target.previousElementSibling.previousElementSibling.src
         );
+        removeBookmark.disabled = false;
       });
     });
   };
@@ -150,16 +155,22 @@ function storeInLocalStorage(element, img) {
   } else {
     bookmarkedName.push({ name: element, img: img });
     localStorage.setItem("bookmark", JSON.stringify(bookmarkedName));
+    removeBookmark.innerText = "remove bookmark";
+    removeBookmark.setAttribute("value", element);
   }
 }
 loadCharacters();
 
 removeBookmark.addEventListener("click", (e) => {
-  let x = JSON.parse(localStorage.getItem("bookmark"));
-  if (e.target.value === x[0].name) {
-    localStorage.removeItem("bookmark");
-    console.log("hello");
+  if (localStorage.getItem("bookmark") !== null) {
+    let x = JSON.parse(localStorage.getItem("bookmark"));
+    if (e.target.value === x[0].name) {
+      localStorage.removeItem("bookmark");
+      console.log("hello");
+      removeBookmark.innerText = "no bookmark";
+    }
+
+    console.log(localStorage.getItem("bookmark"));
+    console.log(x[0].name);
   }
-  console.log(localStorage.getItem("bookmark"));
-  console.log(x[0].name);
 });
