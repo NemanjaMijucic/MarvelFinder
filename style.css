@@ -57,11 +57,21 @@ input {
   margin: 0 auto;
   color: white;
   text-align: center;
-  height: 500px;
+  height: 350px;
+  width: 220px;
+  margin-bottom: 10px;
 }
 .bookmark {
   background-color: red;
   color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.removebookmark {
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 a {
@@ -84,6 +94,9 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
+  .removebookmark {
+    margin-top: 5px;
+  }
 }
 
 @media screen and (max-width: 580px) {
@@ -98,6 +111,9 @@ footer {
   }
   h1 strong {
     font-size: 50px;
+  }
+  .removebookmark {
+    margin-top: 5px;
   }
   .grid {
     display: flex;

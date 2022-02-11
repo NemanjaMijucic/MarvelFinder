@@ -3,7 +3,7 @@ let charNameImg = [];
 let filteredChars = [];
 const search = document.getElementById("search");
 const grid = document.querySelector(".grid");
-
+const removeBookmark = document.querySelector(".removebookmark");
 const loadingText = () => {
   grid.innerHTML = "<p class='load'>Loading...<p>";
   setTimeout(() => {
@@ -14,13 +14,14 @@ const loadingText = () => {
       card.classList.add("character");
       card.innerHTML = `<img src="${hero[0].img}" />
        <p>${hero[0].name}</p>
-       <button type="button" class="bookmark" value="${hero[0].name}">add bookmark</button>
+       <p>bookmarked</p>
        `;
+      removeBookmark.setAttribute("value", hero[0].name);
       grid.appendChild(card);
     } else {
       grid.innerHTML = "";
     }
-  }, 10000);
+  }, 7000);
 };
 document.addEventListener("DOMContentLoaded", loadingText);
 
@@ -56,16 +57,37 @@ async function loadCharacters() {
   const data5 = await response5.json();
 
   const response6 = await fetch(
-    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=400`
+    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=600`
   );
   const data6 = await response6.json();
 
   const response7 = await fetch(
-    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=400`
+    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=700`
   );
   const data7 = await response7.json();
 
-  characters.push(data, data1, data2, data3, data4, data5, data6, data7);
+  const response8 = await fetch(
+    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=800`
+  );
+  const data8 = await response8.json();
+
+  const response9 = await fetch(
+    `https://gateway.marvel.com/v1/public/characters?ts=1&apikey=38124a9788308e47188fa72969e2fce4&hash=c1d845427a6cdbc254218a2c228e51a2&limit=100&offset=900`
+  );
+  const data9 = await response9.json();
+
+  characters.push(
+    data,
+    data1,
+    data2,
+    data3,
+    data4,
+    data5,
+    data6,
+    data7,
+    data8,
+    data9
+  );
   characters.forEach((char) => {
     char.data.results.forEach((res) => {
       charNameImg.push({
@@ -111,6 +133,7 @@ async function loadCharacters() {
     const bookmarks = document.querySelectorAll(".bookmark");
     bookmarks.forEach((bookmark) => {
       bookmark.addEventListener("click", (e) => {
+        e.target.innerText = "bookmarked";
         storeInLocalStorage(
           e.target.value,
           e.target.previousElementSibling.previousElementSibling.src
@@ -130,3 +153,13 @@ function storeInLocalStorage(element, img) {
   }
 }
 loadCharacters();
+
+removeBookmark.addEventListener("click", (e) => {
+  let x = JSON.parse(localStorage.getItem("bookmark"));
+  if (e.target.value === x[0].name) {
+    localStorage.removeItem("bookmark");
+    console.log("hello");
+  }
+  console.log(localStorage.getItem("bookmark"));
+  console.log(x[0].name);
+});
